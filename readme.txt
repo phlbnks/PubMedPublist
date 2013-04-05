@@ -56,6 +56,9 @@ Please do! [The project is hosted on GitHub here](http://github.com/emirpprime/P
 
 == Changelog ==
 
-= 0.9 =
+= 0.9.1 =
+* Clean up PHP errors.
+* Migrate Options to an array, it's good manners.
 
+= 0.9 =
 * Initial Beta Release

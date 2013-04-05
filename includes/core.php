@@ -28,7 +28,7 @@ function pm_publist_recent_pubs($atts, $content = null) {
 
     $total = $show+$extra;
 
-    if ($layout) : $transient = 'pm_pubmedlist'.$show.$total.$class.$layout; else : $transient = 'pm_pubmedlist'.$show.$total.$class.$layout; endif;
+    $transient = 'pm_pubmedlist'.$show.$extra.$class.$layout;
     $pubs = get_transient( $transient );
     if ( false === $pubs ) {
 
@@ -169,6 +169,8 @@ function pm_publist_recent_pubs($atts, $content = null) {
             }
 
             $xmlCache = pm_publist_DIR.'pm_cache.xml';
+            //TODO: Sort caching out. Remove age chack from pubmedrequest.php and ue just this???
+            //Easier to get var from settings here.
             $xmlcache_time = 60*60; // 1 hour
             $timedif = @(time() - filemtime($xmlCache));
             ////check if cache is older that set above. if not then use
@@ -190,14 +192,7 @@ function pm_publist_recent_pubs($atts, $content = null) {
                     if (!$fp) {
                         return false;
                     } else {
-                        //TODO: must be a better way of handling this.
-                        $strings = array();
-                        if (get_option('test_searchString1')) { array_push($strings,get_option('test_searchString1')); };
-                        if (get_option('test_searchString2')) { array_push($strings,get_option('test_searchString2')); };
-                        if (get_option('test_searchString3')) { array_push($strings,get_option('test_searchString3')); };
-                        if (get_option('test_searchString4')) { array_push($strings,get_option('test_searchString4')); };
-                        if (get_option('test_searchString5')) { array_push($strings,get_option('test_searchString5')); };
-                        if (get_option('test_searchString6')) { array_push($strings,get_option('test_searchString6')); };
+                        $strings = get_option('pm_publist_settings');
                         $data = http_build_query($strings);
 
                         $out = "POST ".$parts['path']." HTTP/1.1\r\n";
@@ -228,18 +223,19 @@ function pm_publist_recent_pubs($atts, $content = null) {
         $lmbpubs = lmbpubs();
         ////Create page
         $pubs = '<ul class="pm_publist '.$class.'">'.implode($lmbpubs[0]).'</ul>';
-        if($lmbpubs[1]) {
+        global $show;
+        global $total;
+        if($show != $total) {
             //TODO: Add CSS / JS / Shortcode for this:
             //$pubs .= do_shortcode('[toggle title="More papers"]<ul class="'.$class.'>'.implode($lmbpubs[1]).'</ul>[/toggle]');
             $pubs .= '<ul class="pm_publist_more '.$class.'">'.implode($lmbpubs[1]).'</ul>';
         };
 
-        //for next time
-        //write transient cache file.
+        //for next time write transient cache file.
         //but only if no error (basic check using length)
+        //TODO: Use Options to set this.
         if (strlen($pubs) > 500){
-            //set_transient($transient, $pubs, 60*30);
-            set_transient($transient, $pubs, 30);
+            set_transient($transient, $pubs, 60*30);
         }
     }
 

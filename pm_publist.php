@@ -2,7 +2,7 @@
 /*
 Plugin Name: PubMed Publist
 Description: Shortcodes to display a list of publications from PubMed
-Version: 0.9
+Version: 0.9.1
 Author: Phil Banks
 */
 
