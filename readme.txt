@@ -7,7 +7,9 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+
 Simple shortcode to get and display latest publications from PubMed using a PubMed search URL(s).
+
 
 == Description ==
 
@@ -15,9 +17,6 @@ This plugin will register a shortcode [recentpublications] that will display the
 
 The shortcode accepts arguments to set how many papers are displayed, apply classes for custom styling, and choose from two layout options.
 
-//TODO: Upload to Git + dir and check stable tag.
-//*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
 
 = Roadmap =
 
@@ -25,6 +24,7 @@ stable.
 * Make caching configurable
 * Add widget version
 * Add JS for show/hide extra results on front-end
+
 
 == Installation ==
 
@@ -34,6 +34,7 @@ stable.
 1. Use `[recentpublications]` in your pages/posts where you want it to display
 1. Or use `<?php do_shortcode('recentpublications'); ?>` in your templates
 
+
 == Frequently Asked Questions ==
 
 = What are the layouts available =
@@ -42,7 +43,8 @@ You can see the layout options on the [Screenshots](screenshots) page. After ins
 
 = Can I contribute to the plugin / suggest a change? =
 
-Please do! [The project is hosted on GitHub here](http://github.com/emirpprime/).
+Please do! [The project is hosted on GitHub here](http://github.com/emirpprime/PubMedPublist).
+
 
 == Screenshots ==
 
@@ -50,6 +52,7 @@ Please do! [The project is hosted on GitHub here](http://github.com/emirpprime/)
 1. Default output (using Twenty Thirteen theme) with no arguments
 1. Layout options
 1. Settings screen
+
 
 == Changelog ==
 
