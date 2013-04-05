@@ -70,13 +70,13 @@ else {
 		function dedupeXML($xml1, $xml2) {
 			$query = array();
 			foreach ($xml1->PubmedArticle as $paper) {
-		    	$query[] = sprintf('(MedlineCitation/PMID != %s)',$paper->MedlineCitation->PMID);
+				$query[] = sprintf('(MedlineCitation/PMID != %s)',$paper->MedlineCitation->PMID);
 			}
 			$query = implode('and', $query);
 
 			$xmlClean = '<Document>';
 			foreach ($xml2->xpath(sprintf('PubmedArticle[%s]', $query)) as $paper) {
-		    	$xmlClean .= $paper->asXML();
+				$xmlClean .= $paper->asXML();
 			}
 			$xmlClean .= '</Document>';
 			$xmlClean = new SimpleXMLElement($xmlClean);
