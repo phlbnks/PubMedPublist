@@ -76,7 +76,7 @@ else {
 
 			$xmlClean = '<Document>';
 			foreach ($xml2->xpath(sprintf('PubmedArticle[%s]', $query)) as $paper) {
-		    	$xmlClean .= $paper->asXML();
+				$xmlClean .= $paper->asXML();
 			}
 			$xmlClean .= '</Document>';
 			$xmlClean = new SimpleXMLElement($xmlClean);
