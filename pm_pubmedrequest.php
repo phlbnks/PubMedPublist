@@ -1,6 +1,8 @@
 <?php
 ////If Cache is good - use it
 //define some variables.
+//TODO: Use options to set this cache time
+//TODO: Check there isn't a WP function for writing to disk. Problems on some hosts???
 $cache_time = 60*60*2; // 2 hours
 $cache_file = dirname(__FILE__).'/pm_cache.xml';
 $timedif = @(time() - filemtime($cache_file));
@@ -11,35 +13,32 @@ if (file_exists($cache_file) && $timedif < $cache_time && filesize($cache_file) 
 ////Otherwise create the page fresh
 else {
 		$nodes = array();
-		//TODO: Make multi string compatible. Work out how to test how many then do appropriate for that many.
-		if(isset($_POST["0"])) {
-			$search1 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["0"].'&report=xml';
+		if(isset($_POST["searchString1"])) {
+			$search1 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString1"].'&report=xml';
 			array_push($nodes, $search1);
 		}
-		if(isset($_POST["1"])) {
-			$search2 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["1"].'&report=xml';
+		if(isset($_POST["searchString2"])) {
+			$search2 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString2"].'&report=xml';
 			array_push($nodes, $search2);
 		}
-		if(isset($_POST["2"])) {
-			$search3 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["2"].'&report=xml';
+		if(isset($_POST["searchString3"])) {
+			$search3 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString3"].'&report=xml';
 			array_push($nodes, $search3);
 		}
-		if(isset($_POST["3"])) {
-			$search4 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["3"].'&report=xml';
+		if(isset($_POST["searchString4"])) {
+			$search4 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString4"].'&report=xml';
 			array_push($nodes, $search4);
 		}
-		if(isset($_POST["4"])) {
-			$search5 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["4"].'&report=xml';
+		if(isset($_POST["searchString5"])) {
+			$search5 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString5"].'&report=xml';
 			array_push($nodes, $search5);
 		}
-		if(isset($_POST["5"])) {
-			$search6 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["5"].'&report=xml';
+		if(isset($_POST["searchString6"])) {
+			$search6 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString6"].'&report=xml';
 			array_push($nodes, $search6);
 		}
 
-
 		//get PubMed data as XML using parallel cURL requests for speed.
-		////$nodes = array($search1, $search2, $search3, $search4, $search5, $search6);
 		$node_count = count($nodes);
 		$curl_arr = array();
 		$master = curl_multi_init();
@@ -57,7 +56,6 @@ else {
 			$num = $i+1;
 			${"search$num"} = curl_multi_getcontent  ( $curl_arr[$i]  );
 		}
-
 
 
 		//function to clean PubMed data so it is valid XML.
@@ -104,7 +102,7 @@ else {
 		}
 
 
-		//Loop through set nodes and process them
+		//Loop through set nodes and clean/convert
 		for($i = 0; $i < $node_count; $i++) {
 			$num = $i+1;
 			//Clean search data
@@ -112,13 +110,11 @@ else {
 			//turn search data into SimpleXML Elements
 			${"xml$num"} = new SimpleXMLElement(${"search$num"});
 		}
-
+		//Loop through nodes and dedupe/merge
 		$output = $xml1;
 		if ($node_count > 1) {
 			for($i = 0; $i < $node_count-1; $i++) {
 				$num = $i+2;
-				error_log($num);
-
 				${"xml$num.clean"} = dedupeXML($output,${"xml$num"});
 				$output = mergeXML($output,${"xml$num.clean"});
 			}

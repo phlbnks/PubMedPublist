@@ -3,6 +3,10 @@
  * Admin functions PubMed Publist plugin
  **/
 
+//TODO: Add Purge cache buttons / functions.
+//TODO: Add cache settings
+//TODO: Add PMID exclude setting.
+
 /* settings link in plugin management screen */
 function pm_pubmed_settings_link( $links ) {
     return array_merge(
@@ -127,14 +131,13 @@ class wctest{
         foreach($input as $key => $val) {
             if(isset($key)) {
                 $val = trim(wp_kses($val, ''));
-
-                if(get_option('pm_publist_'.$key) === FALSE){
-                    add_option('pm_publist_'.$key, $val);
-                }else{
-                    update_option('pm_publist_'.$key, $val);
-                }
             } // end if
         } // end foreach
+        if(get_option('pm_publist_settings') === FALSE){
+            add_option('pm_publist_settings', $input);
+        }else{
+            update_option('pm_publist_settings', $input);
+        }
         return $input;
     }
 
@@ -145,7 +148,8 @@ class wctest{
         print 'PubMed searches have a maximum length. If your search exceeds this you can split it into multiple searches, and add them here. The results will all be merged, duplications removed, and sorted by time.';
     }
     public function pm_publist_create_searchString_field($int){
-        ?><textarea style="width:100%;" rows="5" id="searchString<?php echo $int;?>" name="array_key[searchString<?php echo $int;?>]"><?php echo get_option('pm_publist_searchString'.$int);?></textarea><?php
+        $options = get_option('pm_publist_settings');
+        ?><textarea style="width:100%;" rows="5" id="searchString<?php echo $int;?>" name="array_key[searchString<?php echo $int;?>]"><?php echo $options['searchString'.$int];?></textarea><?php
     }
     public function pm_publist_use_info(){
         print 'This plugin registers the shortcode <code>[recentpublications]</code>
