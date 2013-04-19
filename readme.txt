@@ -49,9 +49,9 @@ Please do! [The project is hosted on GitHub here](http://github.com/emirpprime/P
 == Screenshots ==
 
 1. Using the shortcode in a post - showing all optional arguments being used
-1. Default output (using Twenty Thirteen theme) with no arguments
-1. Layout options
-1. Settings screen
+2. Default output (using Twenty Thirteen theme) with no arguments
+3. Layout options
+4. Settings screen
 
 
 == Changelog ==
