@@ -13,27 +13,27 @@ if (file_exists($cache_file) && $timedif < $cache_time && filesize($cache_file) 
 ////Otherwise create the page fresh
 else {
 		$nodes = array();
-		if(isset($_POST["searchString1"])) {
+		if(!empty($_POST["searchString1"])) {
 			$search1 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString1"].'&report=xml';
 			array_push($nodes, $search1);
 		}
-		if(isset($_POST["searchString2"])) {
+		if(!empty($_POST["searchString2"])) {
 			$search2 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString2"].'&report=xml';
 			array_push($nodes, $search2);
 		}
-		if(isset($_POST["searchString3"])) {
+		if(!empty($_POST["searchString3"])) {
 			$search3 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString3"].'&report=xml';
 			array_push($nodes, $search3);
 		}
-		if(isset($_POST["searchString4"])) {
+		if(!empty($_POST["searchString4"])) {
 			$search4 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString4"].'&report=xml';
 			array_push($nodes, $search4);
 		}
-		if(isset($_POST["searchString5"])) {
+		if(!empty($_POST["searchString5"])) {
 			$search5 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString5"].'&report=xml';
 			array_push($nodes, $search5);
 		}
-		if(isset($_POST["searchString6"])) {
+		if(!empty($_POST["searchString6"])) {
 			$search6 = 'http://www.ncbi.nlm.nih.gov/pubmed?term='.$_POST["searchString6"].'&report=xml';
 			array_push($nodes, $search6);
 		}
